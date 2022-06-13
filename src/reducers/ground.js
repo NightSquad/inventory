@@ -120,7 +120,8 @@ export default (state = items, action) => {
             for(let i = 0; i<state.length; i++) {
                 if (state[i] === null) {
                     state[i] = action.data;
-                    state[i].id = i + 1;
+                    state[i].id = i;
+                    state[i].place = 'ground'
                     break
                 }
             }
@@ -136,6 +137,7 @@ export default (state = items, action) => {
         
         case "GROUND_SET_ITEM":
             state[action.data.id] = action.data.item
+            state[action.data.id].place = 'ground'
             return state
 
   default:

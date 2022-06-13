@@ -11,7 +11,10 @@ function App() {
   console.log('render')
   const [items, ground] = useSelector(state => [state.items, state.ground])
   const [update, setUpdate] = useState(false)
+
   let inventoryWeight = 0;
+  const maxWeight = 50;
+
   for (let i = 0; i < items.length; i++) {
     if (items[i]) {
       inventoryWeight = inventoryWeight + (items[i].weight * items[i].count)
@@ -44,8 +47,12 @@ function App() {
       setUpdate(!update)
       return
     }
-    dispatch({type: "REMOVE_ITEM", id: item.id})
-    dispatch({type: "SET_ITEM", data: {id: e.target.dataset.id, item: {...item, id: e.target.dataset.id}}})
+    if (item.weight * item.count + inventoryWeight > maxWeight) {
+      console.log("Перебор")
+      return
+    }
+    dispatch({type: `${item.place === "pockets" ? "" : "GROUND_"}REMOVE_ITEM`, id: item.id})
+    dispatch({type: `${e.target.dataset.type === "pockets" ? "" : "GROUND_"}SET_ITEM`, data: {id: e.target.dataset.id, item: {...item, id: e.target.dataset.id}}})
     setUpdate(!update)
   }
 
@@ -73,7 +80,7 @@ function App() {
                 <Item place={index} item={item} pos={{pos, setPos}} menu={{showMenu, setShowMenu}}/>
               </div>
             : 
-              <div key={"pockets" + index} data-id={index} onDrop={(e) => onDropHandler(e)} onDragLeave={(e) => dragLeaveHandler(e)} onDragOver={(e) => dragOverHandler(e)} className='ceil'></div>)
+              <div key={"pockets" + index} data-id={index} data-type="pockets" onDrop={(e) => onDropHandler(e)} onDragLeave={(e) => dragLeaveHandler(e)} onDragOver={(e) => dragOverHandler(e)} className='ceil'></div>)
             }
             </div>
             {equip.bag ? 
@@ -158,7 +165,7 @@ function App() {
               <div key={"ground" + index} data-id={index} className='ceil'>
                 <Item place={index} item={item} pos={{pos, setPos}} menu={{showMenu, setShowMenu}}/>
               </div>
-            : <div key={"ground" + index} data-id={index} className='ceil'></div>)}
+            : <div key={"ground" + index} data-id={index} data-type="ground" onDrop={(e) => onDropHandler(e)} onDragLeave={(e) => dragLeaveHandler(e)} onDragOver={(e) => dragOverHandler(e)} className='ceil'></div>)}
           </div>
         </div>
       </div>

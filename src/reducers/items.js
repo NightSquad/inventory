@@ -122,6 +122,7 @@ export default (state = items, action) => {
                 if (state[i] === null) {
                     state[i] = action.data;
                     state[i].id = i;
+                    state[i].place = 'pockets'
                     break
                 }
             }
@@ -137,6 +138,7 @@ export default (state = items, action) => {
         
         case "SET_ITEM":
             state[action.data.id] = action.data.item
+            state[action.data.id].place = 'pockets'
             return state
 
   default:

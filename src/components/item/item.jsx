@@ -3,6 +3,7 @@ import ItemMenu from '../itemMenu/itemMenu';
 
 function Item(props) {
     const handleClick = (e, item) => {
+        e.preventDefault()
         e.stopPropagation()
         props.pos.setPos({x: e.clientX, y: e.clientY})
         props.menu.setShowMenu(item)
@@ -25,7 +26,8 @@ function Item(props) {
         onDragEnd={(e) => dragEndHandler(e)}
         draggable={true}
         data-active={props.active}
-        onClick={(e) => handleClick(e, props.item)}
+        onContextMenu={(e) => handleClick(e, props.item)}
+        // onClick={(e) => handleClick(e, props.item)}
         className={styles.item}>
             {(props.item.slot === "primary" || props.item.slot === "secondary") && props.active ? <p className={styles.title}>{props.item.title}</p> : <></>}
             <img src={props.item.img} alt="" />

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './itemMenu.module.css'
 
-function ItemMenu({onGround, place, equip, pos, item, menu}) {
+function ItemMenu({place, equip, pos, item, menu}) {
     console.log(item)
     const dispatch = useDispatch()
     const [isDivide, setIsDivide] = useState(false)
@@ -32,14 +32,28 @@ function ItemMenu({onGround, place, equip, pos, item, menu}) {
         let newItem = JSON.parse(JSON.stringify(item))
         newItem.count = Math.ceil(count)
         item.count = item.count - newItem.count;
-        dispatch({type: "SET_ITEM_FREE", data: newItem})
+        if (item.place === "pockets") {
+            dispatch({type: "SET_ITEM_FREE", data: newItem})
+            return
+        }
+        dispatch({type: "GROUND_SET_ITEM_FREE", data: newItem})
     }
 
     const handleTakeItem = (item) => {
         menu.setShowMenu(null)
         dispatch({type: "GROUND_REMOVE_ITEM", id: item.id})
-        dispatch({type: "SET_ITEM_FREE", data: {...item, place: "pockets"}})
+        dispatch({type: "SET_ITEM_FREE", data: item})
         
+    }
+
+    const handleDropItem = (item) => {
+        menu.setShowMenu(null)
+        dispatch({type: "GROUND_SET_ITEM_FREE", data: item})
+        if (equip) {
+            dispatch({type: "UNEQUIP_ITEM", data: {slot: item.slot}})
+        } else {
+            dispatch({type: "REMOVE_ITEM", id: item.id})
+        }
     }
 
     const handleIncrement = (item) => {
@@ -65,8 +79,8 @@ function ItemMenu({onGround, place, equip, pos, item, menu}) {
             {equip ? 
             <button onClick={() => handleUnequip(item)} className={styles.control}>Снять</button>    
             :
-                item.stackable ? <></> :
-                item.place === "pockets" ? <button onClick={() => handleEquip(item)} className={styles.control}>Надеть</button> : <button onClick={() => handleTakeItem(item)} className={styles.control}>Взять</button>
+                item.place === "pockets" ? item.stackable ? <></> : <button onClick={() => handleEquip(item)} className={styles.control}>Надеть</button> : <button onClick={() => handleTakeItem(item)} className={styles.control}>Взять</button>
+                // ^ Если предмет в кармане то проверяем (если предмет стакается, то кнопки нет, если нет - кнопка надеть), иначе кнопка Взять
             }
             {isDivide 
             ? 
@@ -78,7 +92,7 @@ function ItemMenu({onGround, place, equip, pos, item, menu}) {
             : <></>
             }
             <button onClick={() => handleDivide(item)} className={styles.control}>Разделить</button>
-            <button className={styles.control}>Выбросить</button>
+            {item.place === "pockets" ? <button onClick={() => handleDropItem(item)} className={styles.control}>Выбросить</button> : <></>}
         </div>
     );
 }
