@@ -1,0 +1,37 @@
+.satiety {
+    margin-top: 9px;
+    margin-left: -1px;
+    width: 138px;
+    height: 141px;
+    background: url(./border.svg) no-repeat right;
+    position: relative;
+    display: flex;
+    column-gap: 17px;
+}
+
+.title {
+    width: 29px;
+    align-self: flex-end;
+    margin-bottom: 32px;
+    display: block;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 24px;
+    font-family: "Din Next";
+    font-weight: 400;
+    transform: rotate(270deg);
+    white-space: nowrap;
+}
+
+.indicators {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+    row-gap: 5px;
+}
+
+.indicator {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: gray;
+}

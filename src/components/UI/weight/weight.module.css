@@ -1,0 +1,25 @@
+.weight {
+    font-family: "Din Next";
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    color: white;
+    position: relative;
+}
+
+.weight::before {
+    content: "ВЕС";
+    position: absolute;
+    top: -17px;
+    left: 4px;
+    font-size: 48px;
+    line-height: 57px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.05)
+}
+
+.currentWeight {
+    font-size: 22px;
+    line-height: 26px;
+    color: #FFF205;
+}

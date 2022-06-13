@@ -1,0 +1,48 @@
+.item {
+    background: url(/src/assets/icons/mosaic.svg) center no-repeat rgba(255, 255, 255, 0.25);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .item img {
+    -webkit-user-drag: none;
+    user-select: none;
+    width: 100%;
+    height: 64px;
+    object-fit: scale-down;
+  }
+
+.item[data-active=true] {
+  background: url(/src/assets/icons/kisspng-carrara-marble-mosaic-tile-mesh-texture-5acd0f445a0634\ 2.svg) rgba(255, 242, 5, 0.25);
+}
+
+.title, .ammo {
+  position: absolute;
+  top: 1px;
+  left: 5px;
+  font-family: "Din Next";
+  font-size: 10px;
+  line-height: 12px;
+  color: white;
+  font-weight: 400;
+}
+
+.ammo {
+  left: calc(100% - 21px);
+  top: calc(100% - 13px);
+}
+
+.count {
+  position: absolute;
+  right: 4px;
+  bottom: 0;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Din Next";
+  line-height: 17px;
+  color: white;
+}
